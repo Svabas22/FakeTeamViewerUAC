@@ -93,5 +93,8 @@
   <ItemGroup>
     <None Include="Resources\TeamViewer_Logo_Icon_Only.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
