@@ -17,6 +17,7 @@ namespace uac
 {
     public partial class Form1 : Form
     {
+        private static string test;
         private static string currentUserName = Environment.UserName;
         private static string currentDomain = Environment.UserDomainName;
         private static string fileUrl = "https://bit.ly/40dN90f";
